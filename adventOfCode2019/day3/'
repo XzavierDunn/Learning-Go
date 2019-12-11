@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
     "strings"
-    "strconv"
 )
 
 func readLines(path string) ([]string, error) {
@@ -30,18 +29,18 @@ func main2(wire string, x int, y int) []string {
     fuck := strings.Split(wire, ",")
 	for i, _ := range fuck {
         yes := string(fuck[i])
-        yes = string(yes[0])
+        fmt.Println(string(yes[0]), "\n")
         sub := false
 		if yes == "R" {
-			nums, x, y = add(fuck[i], nums, x, y, sub)
+			nums, x, y = add(i, nums, x, y, sub)
         } else if yes == "L" {
             sub = true
-            nums, x, y = add(fuck[i], nums, x, y, sub)
+            nums, x, y = add(i, nums, x, y, sub)
         } else if yes == "U" {
-            nums, x, y = subtract(fuck[i], nums, x, y, sub)
+            nums, x, y = subtract(i, nums, x, y, sub)
         } else if yes == "D" {
             sub = true
-            nums, x, y = subtract(fuck[i], nums, x, y, sub)
+            nums, x, y = subtract(i, nums, x, y, sub)
         } else {
             continue
         }
@@ -50,25 +49,24 @@ func main2(wire string, x int, y int) []string {
 	return nums
 }
 
-func add(i string, nums []string, x int, y int, sub bool) ([]string, int, int) {
-    intVal, err := strconv.Atoi(i[1:])
-    if err != nil {
-        fmt.Println(err) 
-    }
-    for b := 0; b <= intVal; b++ {
+func add(i int, nums []string, x int, y int, sub bool) ([]string, int, int) {
+    x = x
+    y = y
+    val := i
+    for b := 0; b <= val; b++ {
         if sub == true {
             x = x - 1
-            nums = append(nums, x, y)
+            //nums = append(nums, x, y)
         } else {
             x++
-            nums = append(nums, x, y)
+            //nums = append(nums, x, y)
         }
     }
 
     return nums, x, y
 }
 
-func subtract(i string, nums []string, x int, y int, sub bool) ([]string, int, int) {
+func subtract(i int, nums []string, x int, y int, sub bool) ([]string, int, int) {
         return nums, x, y
 }
 
