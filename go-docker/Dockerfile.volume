@@ -1,0 +1,36 @@
+# Golang base image
+FROM golang:latest
+
+# Maintainer Info
+LABEL maintainer="XD"
+
+# Working Directory
+WORKDIR /go-docker
+
+# Build Args
+ARG LOG_DIR=/go-docker/logs
+
+# Create Log Directory
+RUN mkdir -p ${LOG_DIR}
+
+# Environment Variables
+ENV LOG_FILE_LOC=${LOG_DIR}/app.log
+
+# Copy go mod and sum files
+COPY go.mod go.sum ./
+
+# Download dependencies
+RUN go mod download
+
+# Copy source 
+COPY . .
+
+# Build app
+RUN go build -o main .
+
+EXPOSE 8080
+
+# Declare Volumes to mount
+VOLUME [${LOG_DIR}]
+
+CMD ["./main"]

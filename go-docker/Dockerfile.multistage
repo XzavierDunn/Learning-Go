@@ -1,0 +1,33 @@
+# Golang base image
+FROM golang:latest as builder
+
+# Maintainer Info
+LABEL maintainer="XD"
+
+# Working Directory
+WORKDIR /go-docker
+
+# Copy go mod and sum files
+COPY go.mod go.sum ./
+
+# Download dependencies
+RUN go mod download
+
+# Copy source 
+COPY . .
+
+# Build the Go app
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+
+## Start new stage ##
+FROM alpine:latest
+
+RUN apk --no-cache add ca-certificates
+
+WORKDIR /root/
+
+COPY --from=builder /go-docker/main .
+
+EXPOSE 8080
+
+CMD ["./main"]

@@ -10,7 +10,7 @@ import (
 // Index
 func Index(c *gin.Context) {
     c.HTML(http.StatusOK, "index.html", gin.H{
-        "title": "YEET",
+        "title": "YEET", "okay": "okay",
     })
     
 }
