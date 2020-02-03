@@ -15,6 +15,7 @@ import (
 
 func handler(w http.ResponseWriter, r *http.Request) {
     query := r.URL.Query()
+    fmt.Println(query)
     name := query.Get("name")
     if name == "" {
         w.Write([]byte(fmt.Sprintf("Hello%s\n", name)))
